@@ -2,11 +2,9 @@
 @inject IDialogService Dialog
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>@Title</h1>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
 
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -15,9 +13,29 @@ Welcome to your new app.
 <MudButton OnClick="@((e) => OpenDialog(disableBackdropClick))" Color="Color.Tertiary">Disable backdrop dialog</MudButton>
 @code {
     DialogOptions disableBackdropClick = new DialogOptions() { DisableBackdropClick = true };
-    private void OpenDialog(DialogOptions options)
+
+    public string Title { get; set; } = "";
+
+    private async Task OpenDialog(DialogOptions options)
     {
         var result = Dialog.Show<Dialog>("Custom Options Dialog", options);
-        
+
+        var a =await result.GetReturnValueAsync<object>();
+
+        if (a != null)
+        {
+            if ((bool)a == true)
+            {
+                Title = "Premuto Ok";
+            }
+            else
+            {
+                Title = "Annullato";
+            }
+        }
+        else
+        {
+            Title = "Fuori";
+        }
     }
 }
