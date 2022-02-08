@@ -3,36 +3,37 @@
 
 <MudDialog DisableSidePadding="true">
     <DialogContent>
-        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+        <MudContainer Style="max-height: 200px; overflow-y: scroll">
             @if (Loading)
             {
                 <MudProgressCircular Indeterminate="true"></MudProgressCircular>
             }
             else
             {
-                <MudText Style="white-space: pre-wrap;">@LicenseText</MudText>
+                <MudText Style="white-space: pre-wrap;">@Text</MudText>
             }
         </MudContainer>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Ok">Accept</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Ok">@CloseText</MudButton>
     </DialogActions>
 </MudDialog>
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-
+    [Parameter] public string Text { get; set; } = "";
+    [Parameter] public string CloseText { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         Loading = true;
 
-        LicenseText = "wwwwwwww";
+       
         Loading = false;
     }
 
-    private string LicenseText;
+    
     private bool Loading = false;
 
     private void Ok()

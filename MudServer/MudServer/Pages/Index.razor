@@ -137,16 +137,17 @@
     {
         // Semplice Messaggio dove puoi personalizzare Titolo,corpo e bottone
         // Funziona
-       await Helpers.Mudary.Message(DialogService,"Titolo","Corpo","Ok");
+       await Helpers.Mudary.Message(DialogService,"Titolo","Corpo"+Environment.NewLine+"nuuuuu","Ok");
         StateHasChanged();
     }
 
     // MessageBox personalizzabile che richiama il componente DialogMessage 
     // se il messaggio è lungo si attiva lo scroll
-    // Non funziona , devo passare il parametro del corpo con una List<string> e il parametro del testo del bottone Accept
+    // il corpo del messaggio inserisci una stringa con \n 
+    // Funziona
         private async void OnButtonClicked5()
     {
-       await Helpers.Mudary.MessageScroll(DialogService,"Titolo","Corpo","Ok");
+       await Helpers.Mudary.MessageScroll(DialogService,"Titolo Messaggio","Corpo\n\naaa\nbbsgdfgsdfgdsfg sdfgsd bbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\ngggggCorpo\n\naaa\nbbbbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\ngggggCorpo\n\naaa\nbbbbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\nggggg","Ok");
         StateHasChanged();
     }
 

@@ -30,9 +30,7 @@ namespace MudServer.Helpers
 
         public static async Task<bool?> Message(IDialogService DialogService, string Title, string prompt,string ok)
         {
-            return await DialogService.ShowMessageBox(Title,
-            prompt,
-             ok, null, null, null);
+            return await DialogService.ShowMessageBox(Title,prompt,ok, null, null, null);
         }
 
         public static async Task<bool?> InputDialog(IDialogService DialogService, string Title, string prompt, string ok)
@@ -63,19 +61,20 @@ namespace MudServer.Helpers
 
         public static async Task<bool?> MessageScroll(IDialogService DialogService, string Title, string prompt, string ok)
         {
-            bool license_accepted = false;
-            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
+            bool accepted = false;
+            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = false };
             var parameters = new DialogParameters();
-           
-           
-           
+            parameters.Add("Text", prompt);
+            parameters.Add("CloseText", ok);
+
+
             var result = await DialogService.Show<Shared.DialogMessage>(Title,parameters,options).Result;
 
             if (!result.Cancelled)
             {
-                license_accepted = (bool)(result.Data ?? false);
+                accepted = (bool)(result.Data ?? false);
             }
-            return license_accepted;
+            return accepted;
         }
 
         public static async Task<bool?> ConfirmDelete(IDialogService DialogService)
@@ -89,7 +88,7 @@ namespace MudServer.Helpers
             
             var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };         
             bool ret = false;
-           var a= DialogService.Show<Shared.DialogDelete>("", options);
+            var a= DialogService.Show<Shared.DialogDelete>("", options);
             var result = await a.GetReturnValueAsync<object>();
             if (result != null)
             {
