@@ -4,7 +4,9 @@
 
 <h1>@Title</h1>
 
+<MudChip>@state</MudChip>
 
+<MudDivider></MudDivider>
 
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -17,7 +19,9 @@
 
 <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked3" >Delete 3</MudButton>
 
-<MudChip>@state</MudChip>
+<MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked31" >Delete 31</MudButton>
+
+
 
 <MudDivider></MudDivider>
 
@@ -87,6 +91,13 @@
         StateHasChanged();
     }
 
+    private async void OnButtonClicked31()
+    {
+        bool result31 = await Helpers.Mudary.Confirm(DialogService,"Attenzione!","Sicuro di voler Eliminare il record ?","Si","No");
+        state = result31 ? "Deleted!" : "Cancelled";
+        StateHasChanged();
+    }
+
     private async void OnButtonClicked2()
     {
         // il metodo ConfirmDelete mi deve restituire vero o falso e non prevede personalizzazione
@@ -108,7 +119,7 @@
     {
         // ConfirmDelete2 richiama il componente DialogDelete e mi deve restituire vero e falso
         // questo componente deve essere totalmente personalizzabile a livello grafico
-        // Non Funziona , bisogna ancora fare restituire il valore nel componente razor
+        // funziona
         bool? result = (await Helpers.Mudary.ConfirmDelete2(DialogService));
         if (result == null || result == false)
         {

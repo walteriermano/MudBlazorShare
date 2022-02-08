@@ -11,11 +11,14 @@ namespace MudServer.Helpers
 
         public IDialogService DialogService { get; }
 
-        public static async Task<bool?> Confirm(IDialogService DialogService,string Title,string prompt,string yes,string cancel)
-        {           
-            return  await DialogService.ShowMessageBox(Title,
-            prompt,
-            yesText: yes, cancelText: cancel);            
+        public static async Task<bool> Confirm(IDialogService DialogService,string Title,string prompt,string yes,string cancel)
+        {            
+            var result = await DialogService.ShowMessageBox(Title,prompt,yesText: yes, cancelText: cancel);
+            if (result !=null && result==true)
+            {
+                return true;
+            }            
+            return false;
         }
 
         public static async Task<bool?> ConfirmWithOptions(IDialogService DialogService, string Title, string prompt, string yes, string cancel, DialogOptions options)
@@ -50,11 +53,7 @@ namespace MudServer.Helpers
             bool license_accepted = false;
             var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
             var parameters = new DialogParameters();
-
-
-
             var result = await DialogService.Show<Shared.OptionsDialog>(Title, parameters, options).Result;
-
             if (!result.Cancelled)
             {
                 license_accepted = (bool)(result.Data ?? false);
@@ -88,19 +87,9 @@ namespace MudServer.Helpers
         public static async Task<bool?> ConfirmDelete2(IDialogService DialogService)
         {
             
-            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
-            var result =  ConfirmWithParameters(DialogService,"Elimina", options);
-            if (result!=null )
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static async Task<bool> ConfirmWithParameters(IDialogService DialogService, string Title,   DialogOptions options)
-        {
+            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };         
             bool ret = false;
-           var a= DialogService.Show<Shared.DialogDelete>(Title, options);
+           var a= DialogService.Show<Shared.DialogDelete>("", options);
             var result = await a.GetReturnValueAsync<object>();
             if (result != null)
             {
