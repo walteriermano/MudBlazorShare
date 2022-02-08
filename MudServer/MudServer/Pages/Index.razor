@@ -23,6 +23,13 @@
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnButtonClicked4" >Messaggio</MudButton>
 
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnButtonClicked5" >Messaggio 2</MudButton>
+
+<MudDivider></MudDivider>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnButtonClicked6" >Input Dialog</MudButton>
+
+
 
 <MudButton OnClick="@((e) => OpenDialog(disableBackdropClick))" Color="Color.Tertiary">Disable backdrop dialog</MudButton>
 @code {
@@ -102,7 +109,19 @@
 
     private async void OnButtonClicked4()
     {
-        Helpers.Mudary.Message(DialogService,"Titolo","Corpo","Ok");
+       await Helpers.Mudary.Message(DialogService,"Titolo","Corpo","Ok");
+        StateHasChanged();
+    }
+
+        private async void OnButtonClicked5()
+    {
+       await Helpers.Mudary.MessageScroll(DialogService,"Titolo","Corpo","Ok");
+        StateHasChanged();
+    }
+
+         private async void OnButtonClicked6()
+    {
+       await Helpers.Mudary.InputDialog(DialogService,"Titolo","Corpo","Ok");
         StateHasChanged();
     }
 

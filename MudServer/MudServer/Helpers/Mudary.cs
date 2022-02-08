@@ -34,6 +34,40 @@ namespace MudServer.Helpers
              ok, null, null, null);
         }
 
+        public static async Task<bool?> InputDialog(IDialogService DialogService, string Title, string prompt, string ok)
+        {
+            bool license_accepted = false;
+            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
+            var parameters = new DialogParameters();
+
+
+
+            var result = await DialogService.Show<Shared.DialogInput>(Title, parameters, options).Result;
+
+            if (!result.Cancelled)
+            {
+                license_accepted = (bool)(result.Data ?? false);
+            }
+            return license_accepted;
+        }
+
+        public static async Task<bool?> MessageScroll(IDialogService DialogService, string Title, string prompt, string ok)
+        {
+            bool license_accepted = false;
+            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
+            var parameters = new DialogParameters();
+           
+           
+           
+            var result = await DialogService.Show<Shared.DialogMessage>(Title,parameters,options).Result;
+
+            if (!result.Cancelled)
+            {
+                license_accepted = (bool)(result.Data ?? false);
+            }
+            return license_accepted;
+        }
+
         public static async Task<bool?> ConfirmDelete(IDialogService DialogService)
         {
             var options = new DialogOptions { DisableBackdropClick = false,CloseOnEscapeKey=true, CloseButton = true };
@@ -42,12 +76,9 @@ namespace MudServer.Helpers
 
         public static async Task<bool?> ConfirmDelete2(IDialogService DialogService)
         {
-            var parameters = new DialogParameters();
-            parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
-            parameters.Add("ButtonText", "Delete");
-            parameters.Add("Color", Color.Error);
+            
             var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
-            var result =  ConfirmWithParameters(DialogService,"Elimina", parameters, options);
+            var result =  ConfirmWithParameters(DialogService,"Elimina", options);
             if (result!=null )
             {
                 return true;
@@ -55,7 +86,7 @@ namespace MudServer.Helpers
             return false;
         }
 
-        public static async Task<bool> ConfirmWithParameters(IDialogService DialogService, string Title,  DialogParameters parameters, DialogOptions options)
+        public static async Task<bool> ConfirmWithParameters(IDialogService DialogService, string Title,   DialogOptions options)
         {
             bool ret = false;
            var a= DialogService.Show<Shared.DialogDelete>(Title, options);
