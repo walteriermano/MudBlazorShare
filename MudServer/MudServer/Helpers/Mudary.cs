@@ -20,7 +20,6 @@ namespace MudServer.Helpers
 
         public static async Task<bool?> ConfirmWithOptions(IDialogService DialogService, string Title, string prompt, string yes, string cancel, DialogOptions options)
         {
-
             return await DialogService.ShowMessageBox(Title,
             prompt,
              yes, null, cancel, options);
@@ -28,7 +27,6 @@ namespace MudServer.Helpers
 
         public static async Task<bool?> Message(IDialogService DialogService, string Title, string prompt,string ok)
         {
-
             return await DialogService.ShowMessageBox(Title,
             prompt,
              ok, null, null, null);
@@ -39,10 +37,23 @@ namespace MudServer.Helpers
             bool license_accepted = false;
             var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
             var parameters = new DialogParameters();
-
-
-
             var result = await DialogService.Show<Shared.DialogInput>(Title, parameters, options).Result;
+            if (!result.Cancelled)
+            {
+                license_accepted = (bool)(result.Data ?? false);
+            }
+            return license_accepted;
+        }
+
+        public static async Task<bool?> OptionsDialog(IDialogService DialogService, string Title, string prompt, string ok)
+        {
+            bool license_accepted = false;
+            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
+            var parameters = new DialogParameters();
+
+
+
+            var result = await DialogService.Show<Shared.OptionsDialog>(Title, parameters, options).Result;
 
             if (!result.Cancelled)
             {

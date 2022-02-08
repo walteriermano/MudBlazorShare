@@ -29,9 +29,16 @@
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnButtonClicked6" >Input Dialog</MudButton>
 
+<MudDivider></MudDivider>
 
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnButtonClicked7" >Option Dialog</MudButton>
+
+<MudDivider></MudDivider>
 
 <MudButton OnClick="@((e) => OpenDialog(disableBackdropClick))" Color="Color.Tertiary">Disable backdrop dialog</MudButton>
+
+
+
 @code {
     [Inject] private IDialogService DialogService { get; set; }
 
@@ -69,6 +76,9 @@
 
     private async void OnButtonClicked()
     {
+        // il metodo showmessage mi restituisce vero o falso , questo è un metodo nativo di MudBlazor 
+        // ma non è del tutto personalizzabile a livello grafico
+        // Funziona
         bool? result = await DialogService.ShowMessageBox(
             "Warning", 
             "Deleting can not be undone!", 
@@ -79,6 +89,8 @@
 
     private async void OnButtonClicked2()
     {
+        // il metodo ConfirmDelete mi deve restituire vero o falso e non prevede personalizzazione
+        // funziona
         bool? result = (await Helpers.Mudary.ConfirmDelete(DialogService));
         if (result == null || result == false)
         {
@@ -94,6 +106,9 @@
 
     private async void OnButtonClicked3()
     {
+        // ConfirmDelete2 richiama il componente DialogDelete e mi deve restituire vero e falso
+        // questo componente deve essere totalmente personalizzabile a livello grafico
+        // Non Funziona , bisogna ancora fare restituire il valore nel componente razor
         bool? result = (await Helpers.Mudary.ConfirmDelete2(DialogService));
         if (result == null || result == false)
         {
@@ -109,19 +124,34 @@
 
     private async void OnButtonClicked4()
     {
+        // Semplice Messaggio dove puoi personalizzare Titolo,corpo e bottone
+        // Funziona
        await Helpers.Mudary.Message(DialogService,"Titolo","Corpo","Ok");
         StateHasChanged();
     }
 
+    // MessageBox personalizzabile che richiama il componente DialogMessage 
+    // se il messaggio è lungo si attiva lo scroll
+    // Non funziona , devo passare il parametro del corpo con una List<string> e il parametro del testo del bottone Accept
         private async void OnButtonClicked5()
     {
        await Helpers.Mudary.MessageScroll(DialogService,"Titolo","Corpo","Ok");
         StateHasChanged();
     }
 
+    // Richiama il componente Dialog Input e mi deve restituire un testo inserito
+    // Non funziona ancora , bisogna fare in modo che restituisce la stringa inserita
          private async void OnButtonClicked6()
     {
        await Helpers.Mudary.InputDialog(DialogService,"Titolo","Corpo","Ok");
+        StateHasChanged();
+    }
+
+    // Richiama il componente OptionsDialog e mi deve restituire la scelta selezionata
+    // Non funziona ancora bisogna fare in modo che ritorna un int della scelta e inserire i vari parametri di scelta
+          private async void OnButtonClicked7()
+    {
+       await Helpers.Mudary.OptionsDialog(DialogService,"Titolo","Corpo","Ok");
         StateHasChanged();
     }
 
