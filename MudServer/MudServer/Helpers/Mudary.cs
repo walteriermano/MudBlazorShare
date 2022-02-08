@@ -11,14 +11,16 @@ namespace MudServer.Helpers
 
         public IDialogService DialogService { get; }
 
-        public static async Task<bool?> Confirm(IDialogService DialogService)
-        {
-           
-            return  await DialogService.ShowMessageBox("Warning",
-            "Deleting can not be undone!",
-            yesText: "Delete!", cancelText: "Cancel");
+        public static async Task<bool?> Confirm(IDialogService DialogService,string Title,string prompt,string yes,string cancel)
+        {           
+            return  await DialogService.ShowMessageBox(Title,
+            prompt,
+            yesText: yes, cancelText: cancel);            
+        }
 
-            
+        public static async Task<bool?> ConfirmDelete(IDialogService DialogService)
+        {
+            return await Confirm(DialogService, "Attenzione!","Vuoi Eliminare questo record?","Si,Elimina!", "Annulla");
         }
     }
 }

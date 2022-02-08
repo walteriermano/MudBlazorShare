@@ -69,7 +69,7 @@
 
     private async void OnButtonClicked2()
     {
-        bool? result = (await Helpers.Mudary.Confirm(DialogService));
+        bool? result = (await Helpers.Mudary.ConfirmDelete(DialogService));
         if (result == null || result == false)
         {
             state =  "Cancelled";
