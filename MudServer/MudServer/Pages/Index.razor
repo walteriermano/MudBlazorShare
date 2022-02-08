@@ -10,8 +10,21 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
+
+<MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked" >Delete</MudButton>
+
+<MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked2" >Delete 2</MudButton>
+
+<MudChip>@state</MudChip>
+
+
+
+
+
 <MudButton OnClick="@((e) => OpenDialog(disableBackdropClick))" Color="Color.Tertiary">Disable backdrop dialog</MudButton>
 @code {
+    [Inject] private IDialogService DialogService { get; set; }
+
     DialogOptions disableBackdropClick = new DialogOptions() { DisableBackdropClick = true };
 
     public string Title { get; set; } = "";
@@ -38,4 +51,35 @@
             Title = "Fuori";
         }
     }
+
+
+
+    string state = "Message box hasn't been opened yet";
+
+
+    private async void OnButtonClicked()
+    {
+        bool? result = await DialogService.ShowMessageBox(
+            "Warning", 
+            "Deleting can not be undone!", 
+            yesText:"Delete!", cancelText:"Cancel");
+        state= result==null ? "Cancelled" : "Deleted!";
+        StateHasChanged();
+    }
+
+    private async void OnButtonClicked2()
+    {
+        bool? result = (await Helpers.Mudary.Confirm(DialogService));
+        if (result == null || result == false)
+        {
+            state =  "Cancelled";
+            
+        }
+        else
+        {
+            state =  "Deleted!";
+        }
+        StateHasChanged();
+    }
+
 }
