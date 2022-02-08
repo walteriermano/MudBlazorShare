@@ -15,6 +15,8 @@
 
 <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked2" >Delete 2</MudButton>
 
+<MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked3" >Delete 3</MudButton>
+
 <MudChip>@state</MudChip>
 
 
@@ -70,6 +72,21 @@
     private async void OnButtonClicked2()
     {
         bool? result = (await Helpers.Mudary.ConfirmDelete(DialogService));
+        if (result == null || result == false)
+        {
+            state =  "Cancelled";
+            
+        }
+        else
+        {
+            state =  "Deleted!";
+        }
+        StateHasChanged();
+    }
+
+    private async void OnButtonClicked3()
+    {
+        bool? result = (await Helpers.Mudary.ConfirmDelete2(DialogService));
         if (result == null || result == false)
         {
             state =  "Cancelled";
