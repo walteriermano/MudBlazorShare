@@ -19,8 +19,9 @@
 
 <MudChip>@state</MudChip>
 
+<MudDivider></MudDivider>
 
-
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnButtonClicked4" >Messaggio</MudButton>
 
 
 <MudButton OnClick="@((e) => OpenDialog(disableBackdropClick))" Color="Color.Tertiary">Disable backdrop dialog</MudButton>
@@ -75,7 +76,7 @@
         if (result == null || result == false)
         {
             state =  "Cancelled";
-            
+
         }
         else
         {
@@ -90,7 +91,7 @@
         if (result == null || result == false)
         {
             state =  "Cancelled";
-            
+
         }
         else
         {
@@ -98,5 +99,12 @@
         }
         StateHasChanged();
     }
+
+    private async void OnButtonClicked4()
+    {
+        Helpers.Mudary.Message(DialogService,"Titolo","Corpo","Ok");
+        StateHasChanged();
+    }
+
 
 }

@@ -26,6 +26,14 @@ namespace MudServer.Helpers
              yes, null, cancel, options);
         }
 
+        public static async Task<bool?> Message(IDialogService DialogService, string Title, string prompt,string ok)
+        {
+
+            return await DialogService.ShowMessageBox(Title,
+            prompt,
+             ok, null, null, null);
+        }
+
         public static async Task<bool?> ConfirmDelete(IDialogService DialogService)
         {
             var options = new DialogOptions { DisableBackdropClick = false,CloseOnEscapeKey=true, CloseButton = true };
