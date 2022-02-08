@@ -47,16 +47,28 @@ namespace MudServer.Helpers
             parameters.Add("ButtonText", "Delete");
             parameters.Add("Color", Color.Error);
             var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
-            var a =  ConfirmWithParameters(DialogService,"Elimina", parameters, options);
-            return true;
+            var result =  ConfirmWithParameters(DialogService,"Elimina", parameters, options);
+            if (result!=null )
+            {
+                return true;
+            }
+            return false;
         }
 
-        public static DialogReference ConfirmWithParameters(IDialogService DialogService, string Title,  DialogParameters parameters, DialogOptions options)
+        public static async Task<bool> ConfirmWithParameters(IDialogService DialogService, string Title,  DialogParameters parameters, DialogOptions options)
         {
-
-           var a= DialogService.Show<Shared.DialogDelete>(Title,parameters, options);
-
-            return (DialogReference) a;
+            bool ret = false;
+           var a= DialogService.Show<Shared.DialogDelete>(Title, options);
+            var result = await a.GetReturnValueAsync<object>();
+            if (result != null)
+            {
+                if ((bool)result==true)
+                {
+                    ret = true;
+                }
+            }
+           
+            return ret;
         }
 
 
