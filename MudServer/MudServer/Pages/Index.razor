@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using MudServer.ViewModels
 @inject IDialogService Dialog
 <PageTitle>Index</PageTitle>
 
@@ -137,7 +138,7 @@
     {
         // Semplice Messaggio dove puoi personalizzare Titolo,corpo e bottone
         // Funziona
-       await Helpers.Mudary.Message(DialogService,"Titolo","Corpo"+Environment.NewLine+"nuuuuu","Ok");
+        await Helpers.Mudary.Message(DialogService,"Titolo","Corpo"+Environment.NewLine+"nuuuuu","Ok");
         StateHasChanged();
     }
 
@@ -145,25 +146,30 @@
     // se il messaggio è lungo si attiva lo scroll
     // il corpo del messaggio inserisci una stringa con \n 
     // Funziona
-        private async void OnButtonClicked5()
+    private async void OnButtonClicked5()
     {
-       await Helpers.Mudary.MessageScroll(DialogService,"Titolo Messaggio","Corpo\n\naaa\nbbsgdfgsdfgdsfg sdfgsd bbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\ngggggCorpo\n\naaa\nbbbbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\ngggggCorpo\n\naaa\nbbbbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\nggggg","Ok");
+        await Helpers.Mudary.MessageScroll(DialogService,"Titolo Messaggio","Corpo\n\naaa\nbbsgdfgsdfgdsfg sdfgsd bbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\ngggggCorpo\n\naaa\nbbbbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\ngggggCorpo\n\naaa\nbbbbn\ncccc\ngggggo\n\naaa\nbbbbn\ncccc\nggggg","Ok");
         StateHasChanged();
     }
 
     // Richiama il componente Dialog Input e mi deve restituire un testo inserito
     // Non funziona ancora , bisogna fare in modo che restituisce la stringa inserita
-         private async void OnButtonClicked6()
+    private async void OnButtonClicked6()
     {
-       await Helpers.Mudary.InputDialog(DialogService,"Titolo","Corpo","Ok");
+        InputDialogViewModel input1 = new InputDialogViewModel() {Input="AA",Type="string",Label="A" };
+        InputDialogViewModel input2 = new InputDialogViewModel() {Input="BB",Type="string",Label="B" };
+        InputDialogViewModel input3 = new InputDialogViewModel() {Input="CC",Type="string",Label="C" };
+        List<InputDialogViewModel> inputs = new List<InputDialogViewModel>() { input1,input2,input3};
+        await Helpers.Mudary.InputDialog(DialogService,"Titolo","Ok","Annulla",inputs);
         StateHasChanged();
     }
 
     // Richiama il componente OptionsDialog e mi deve restituire la scelta selezionata
     // Non funziona ancora bisogna fare in modo che ritorna un int della scelta e inserire i vari parametri di scelta
-          private async void OnButtonClicked7()
+    private async void OnButtonClicked7()
     {
-       await Helpers.Mudary.OptionsDialog(DialogService,"Titolo","Corpo","Ok");
+        List<string> list = new List<string>() { "A", "B", "C" };
+        await Helpers.Mudary.OptionsDialog(DialogService,"Seleziona Scelta",list,"Annulla");
         StateHasChanged();
     }
 

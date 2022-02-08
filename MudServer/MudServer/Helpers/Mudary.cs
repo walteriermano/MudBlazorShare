@@ -1,4 +1,5 @@
 ﻿using MudBlazor;
+using MudServer.ViewModels;
 
 namespace MudServer.Helpers
 {
@@ -33,24 +34,29 @@ namespace MudServer.Helpers
             return await DialogService.ShowMessageBox(Title,prompt,ok, null, null, null);
         }
 
-        public static async Task<bool?> InputDialog(IDialogService DialogService, string Title, string prompt, string ok)
+        public static async Task<bool?> InputDialog(IDialogService DialogService, string Title, string ok, string cancel, List<InputDialogViewModel> inputs)
         {
-            bool license_accepted = false;
+            bool accepted = false;
             var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
             var parameters = new DialogParameters();
+            parameters.Add("Inputs", inputs);
+            parameters.Add("OkText", ok);
+            parameters.Add("CancelText", cancel);
             var result = await DialogService.Show<Shared.DialogInput>(Title, parameters, options).Result;
             if (!result.Cancelled)
             {
-                license_accepted = (bool)(result.Data ?? false);
+                accepted = (bool)(result.Data ?? false);
             }
-            return license_accepted;
+            return accepted;
         }
 
-        public static async Task<bool?> OptionsDialog(IDialogService DialogService, string Title, string prompt, string ok)
+        public static async Task<bool?> OptionsDialog(IDialogService DialogService, string Title, List<string> prompt, string ok)
         {
             bool license_accepted = false;
-            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = true };
+            var options = new DialogOptions { DisableBackdropClick = false, CloseOnEscapeKey = true, CloseButton = false };
             var parameters = new DialogParameters();
+            parameters.Add("Choices", prompt);
+            parameters.Add("CloseText", ok);
             var result = await DialogService.Show<Shared.OptionsDialog>(Title, parameters, options).Result;
             if (!result.Cancelled)
             {

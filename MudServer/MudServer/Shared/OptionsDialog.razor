@@ -1,20 +1,30 @@
 ﻿<MudDialog>
     <DialogContent>
         <div class="d-flex flex-column py-1">
-            <MudButton OnClick="ChangeTitle">Change Title</MudButton>
-            <MudButton OnClick="ToggleCloseButton">Toggle Close Button</MudButton>
-            <MudButton OnClick="ToggleFullWidth">Toggle Full Width</MudButton>
-            <MudButton OnClick="ToggleHeader">Toggle Header</MudButton>
+            @foreach (var item in Choices)
+            {
+                <MudButton OnClick="() => Select(item)">@item</MudButton>
+            }                   
         </div>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Close">@CloseText</MudButton>
     </DialogActions>
 </MudDialog>
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
+    [Parameter] public List<string> Choices { get; set; } 
+    [Parameter] public string CloseText { get; set; } = "";
+    [Parameter] public string Selected { get; set; } = "";
+
     void Close() => MudDialog.Close(DialogResult.Ok(true));
+
+    void Select(string sel)
+    {
+        Selected = sel;
+        MudDialog.Close(DialogResult.Ok(true));
+    }
 
     void ChangeTitle()
     {
