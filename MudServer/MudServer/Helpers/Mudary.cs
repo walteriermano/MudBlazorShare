@@ -57,6 +57,7 @@ namespace MudServer.Helpers
             var parameters = new DialogParameters();
             parameters.Add("Choices", prompt);
             parameters.Add("CloseText", ok);
+
             var result = await DialogService.Show<Shared.OptionsDialog>(Title, parameters, options).Result;
             if (!result.Cancelled)
             {
